@@ -1,0 +1,64 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>Bayly || EH </title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="/static/css/main.css"/>
+    <link rel="shortcut icon" href="/static/images/lf.png" type="image/x-icon"/>
+    <meta name="theme-color" content="#34495e"/>
+    <meta name="msapplication-navbutton-color" content="#34495e"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+</head>
+<body id="eri" style="letter-spacing:0.05em;">
+<nav>
+    <label class="logo">Bayly</label>
+    <label class="logo1">Next GEN Diagnosis of Infectious Diseases</label>
+    <ul id="logo">
+        <li id="on"><a href="/">Home</a></li>
+        <li id="on"><a href="/dashboard">Dashboard</a></li>
+        <li id="on"><a href="/logout">Logout</a></li>
+        <li><a href="javascript:void(0)" onclick="openNav()" id="menu">Menu</a></li>
+    </ul>
+</nav>
+
+<div id="nav" class="overlay">
+    <a href="javascript:void(0)" class="closeBtn" onclick="closeNav()">&times</a>
+
+    <div class="content">
+        <a href="/" style="margin-bottom:5px;">Home</a>
+        <a href="/about" style="margin-bottom:5px;">About</a>
+        <a href="/sars" style="margin-bottom:5px;">SARS CoV-2</a>
+        <a href="/dashboard" style="margin-bottom:5px;">Dashboard</a>
+        <a href="/suspected" style="margin-bottom:5px;">Suspected</a>
+        <a href="/exposed" style="margin-bottom:5px;">Exposed</a>
+        <a href="/infected" style="margin-bottom:5px;">Infected</a>
+        <a href="/progress" style="margin-bottom:5px;">Progress</a>
+        <a href="/dispatch" style="margin-bottom:5px;">Dispatch</a>
+        <a href="/logout">Logout</a>
+    </div>
+</div>
+
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+
+<div id="else" onclick="mast()">
+    <div id="er">
+        <div id="err">
+            <p>Hey, This is a <strong>{{e}}</strong> error ({{code}}). <br> {{d}} <br> {{m}}</p>
+            <div style="display:flex; justify-content:center;">
+                <a class="active" href="/">Home</a>
+                <a class="active" href="/dashboard">Dashboard</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="/static/js/main.js" type="text/javascript"></script>
+</body>
+</html>

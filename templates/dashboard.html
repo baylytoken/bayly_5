@@ -1,0 +1,110 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>Bayly || Dashboard</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="/static/css/main.css" />
+    <link rel="shortcut icon" href="/static/images/lf.png" type="image/x-icon"/>
+    <meta name="theme-color" content="#34495e"/>
+    <meta name="msapplication-navbutton-color" content="#34495e"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+</head>
+<body style="letter-spacing:0.05em;">
+<nav>
+    <label class="logo">Bayly</label>
+    <label class="logo1">Next GEN Diagnosis of Infectious Diseases</label>
+    <ul id="logo">
+        <li id="on"><a href="/">Home</a></li>
+        <li id="on"><a href="/dashboard">Dashboard</a></li>
+        <li id="on"><a href="/logout">Logout</a></li>
+        <li><a href="javascript:void(0)" onclick="openNav()" id="menu">Menu</a></li>
+    </ul>
+</nav>
+
+<div id="nav" class="overlay">
+    
+    <a href="javascript:void(0)" class="closeBtn" onclick="closeNav()">&times</a>
+
+    <p class="badge">Practitioner Name: {{name}}</p>
+
+    <div class="content">
+        <a href="/" >Home</a>
+        <a href="/about">About</a>
+        <a href="/sars">SARS CoV-2</a>
+        <a href="/suspected">Suspected</a>
+        <a href="/exposed">Exposed</a>
+        <a href="/infected">Infected</a>
+        <a href="/progress">Progress</a>
+        <a href="/dispatch">Dispatch</a>
+        <a href="/logout">Logout</a>
+    </div>
+</div>
+
+
+<div id="else" onclick="mast()">
+
+    <br/>
+    <br/>
+
+    <div id="content">
+        <div style="text-align:center; color:gray; font-size:20px;">
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    {% for message in messages %}
+                        {{message}} {{name}}
+                    {% endfor %}
+                {% endif %}
+
+            {% endwith %}
+        </div>
+
+        <table style="width:100%" id="mainTable">
+            <tr>
+                <th>Patient Name:</th>
+                <th>Location:</th>
+                <th>Status:</th>
+                <th>Physician:</th>
+                <th>No of Occurrences:</th>
+                <th>Epoch Date:</th>
+                <th>Habits:</th>
+                <th>Preexisting Conditions:</th>
+            </tr>
+
+            {% for data in database %}
+                <tr>
+                    <td><a href="/profile/{{data.user_id}}">{{data.patient}}</a></td>
+                    <td>{{data.address}}</td>
+                    <td>{{data.status}}</td>
+                    <td>{{data.physician}}</td>
+                    <td>{{data.episodes}}</td>
+                    <td id="elapse" class="elapse" data-elapse="{{(data.date_posted - v).total_seconds()}}">{{data.date_posted}}</td>
+                    <td>{{data.triggers}}</td>
+                    <td>{{data.preexisting_conditions}}</td>
+                </tr>
+            {% endfor %}
+        </table>
+        <br>
+        <br><br><br><br><br>
+    </div>
+</div>
+
+
+<script src="/static/js/main.js"></script>
+
+<script type="text/javascript">
+    var len = document.getElementsByClassName("elapse");
+
+    for (var l = 0; l < len.length; l++) {
+        var a;
+        a = len[l].dataset.elapse;
+        var p = a * 1000;
+        var b = new Date(p);
+        len[l].innerHTML= b.toDateString();
+   }
+
+</script>
+
+</body>
+</html>

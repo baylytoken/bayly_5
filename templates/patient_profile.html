@@ -1,0 +1,581 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>Bayly || Patient profile</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="/static/css/main.css"/>
+    <link rel="shortcut icon" href="/static/images/lf.png" type="image/x-icon"/>
+    <meta name="theme-color" content="#34495e"/>
+    <meta name="msapplication-navbutton-color" content="#34495e"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+    <script src="/static/js/plotly.min.js"></script>
+</head>
+<body style="letter-spacing:0.05em;">
+<nav>
+    <label class="logo">Bayly</label>
+    <label class="logo1">Next GEN Diagnosis of Infectious Diseases</label>
+    <ul id="logo">
+        <li id="on"><a href="/">Home</a></li>
+        <li id="on"><a href="/dashboard">Dashboard</a></li>
+        <li id="on"><a href="/logout">Logout</a></li>
+        <li><a href="javascript:void(0)" onclick="openNav()" id="menu">Menu</a></li>
+    </ul>
+</nav>
+
+<div id="nav" class="overlay">
+
+    <a href="javascript:void(0)" class="closeBtn" onclick="closeNav()">&times</a>
+
+    <p class="badge">Practitioner Name: {{name}}</p>
+
+    <div class="content">
+        <a href="/" style="margin-bottom:5px;">Home</a>
+        <a href="/about" style="margin-bottom:5px;">About</a>
+        <a href="/sars" style="margin-bottom:5px;">SARS CoV-2</a>
+        <a href="/dashboard" style="margin-bottom:5px;">Dashboard</a>
+        <a href="/suspected" style="margin-bottom:5px;">Suspected</a>
+        <a href="/exposed" style="margin-bottom:5px;">Exposed</a>
+        <a href="/infected" style="margin-bottom:5px;">Infected</a>
+        <a href="/progress" style="margin-bottom:5px;">Progress</a>
+        <a href="/dispatch" style="margin-bottom:5px;">Dispatch</a>
+        <a href="/logout">Logout</a>
+    </div>
+</div>
+
+<br/>
+
+<div id="else" onclick="mast()">
+    
+
+    <div id="back_loc">
+        <div id="popUp_loc">
+            <form action="" method="post" style="background:#edf9ff; padding:20px 20px 0 20px; box-shadow:0 10px 90px rgba(0, 0, 0, .8);">
+                {{locForm.csrf_token}}
+                <p style="text-align:right;" ><a href="javascript:void(0)" style=" padding:10px;" onclick="sergio()">X</a></p>
+                <p>
+                    {{locForm.contact_name.label}}
+                    <br>
+                    <div style="padding-top:7px; padding-bottom:20px;">{{locForm.contact_name(size=70)}}</div>
+
+                </p>
+                <p>
+                    {{locForm.place_of_contact.label}}
+                    <br>
+                    <div style="padding-top:7px; padding-bottom:20px;">{{locForm.place_of_contact(size=70)}}</div>
+
+                </p>
+                <p>
+                    {{locForm.relationship.label}}
+                    <br>
+                    <div style="padding-top:7px; padding-bottom:20px;">{{locForm.relationship(size=70)}}</div>
+
+                </p>
+                <p>
+                    {{locForm.cumulative_contact_hours.label}}
+                    <br>
+                    <div style="padding-top:7px; padding-bottom:20px;">{{locForm.cumulative_contact_hours(size=70)}}</div>
+
+                </p>
+                <p style="text-align:center; padding-bottom:30px;">
+
+                    <input type="submit" value="Submit" style="padding:5px 20px;"/>
+
+                </p>
+            </form>
+        </div>
+    </div>
+
+    <div id="back">
+        <div id="popUp">
+            <form action="" method="post" style="background:#edf9ff; padding:20px 20px 0 20px; box-shadow:0 10px 90px rgba(0, 0, 0, .8);">
+                {{form.csrf_token}}
+                <p style="text-align:right;" ><a href="javascript:void(0)" style=" padding:10px;" onclick="boston()">X</a></p>
+                <p>
+                    {{form.events.label}}
+                    <br>
+                    <div style="padding-top:7px; padding-bottom:20px;">{{form.events(size=70)}}</div>
+
+                </p>
+                <p>
+                    {{form.notes.label}}
+                    <br>
+                    <div style="padding-top:7px; padding-bottom:20px;">{{form.notes(size=70)}}</div>
+
+                </p>
+                <p style="text-align:center; padding-bottom:30px;">
+
+                    <input type="submit" value="Submit" style="padding:5px 20px;"/>
+
+                </p>
+            </form>
+        </div>
+    </div>
+
+    <div id="content_hidden">
+        <div id="bod">
+
+            <table style="width:100%; box-shadow:0 5px 30px rgba(0, 0, 0, .4);" id="patient">
+               <tr>
+                    <td class="bold">Patient name:</td>
+                    <td>{{chart.patient}}</td>
+                    <td class="bold">Status:</td>
+                    <td><a href="/{{chart.status}}">{{chart.status}}</a></td>
+                </tr>
+                <tr>
+                    <td class="bold">Preexisting Conditions:</td>
+                    <td>{{chart.preexisting_conditions}}</td>
+                    <td class="bold">Hospital</td>
+                    <td><a href="https://www.google.com/search?q={{chart.hospital}}">{{chart.hospital}}</a></td>
+                </tr>
+                <tr>
+                    <td class="bold">Location:</td>
+                    <td>{{chart.address}}</td>
+                    <td class="bold">Epoch date:</td>
+                    <td>{{chart.date_posted}}</td>
+
+                </tr>
+                <tr>
+                    <td class="bold">Allergies:</td>
+                    <td>{{chart.allergies}}</td>
+                    <td class="bold">Current Condition:</td>
+                    <td>{{chart.current_condition}}</td>
+                </tr>
+                <tr>
+                    <td class="bold">Habits:</td>
+                    <td>{{chart.triggers}}</td>
+                    <td class="bold">Age:</td>
+                    <td>{{ chart.age}} {{chart.gender}}</td>
+                </tr>
+            </table>
+
+            <div id="seat">
+            <form action="" method="post" style="background:#edf9ff; padding:20px 20px 0 20px; box-shadow:0 5px 30px rgba(0, 0, 0, .8);">
+                {{mess.csrf_token}}
+                <p style="text-align:right;" ><a href="javascript:void(0)" style=" padding:10px;" onclick="seattle()">X</a></p>
+                <p>
+                    {{mess.message.label}}
+                    <br>
+                    <div style="padding-top:7px; padding-bottom:20px;">{{mess.message(size=70)}}</div>
+
+                </p>
+                <p style="text-align:center; padding-bottom:30px;">
+
+                    <input type="submit" value="Send" style="padding:5px 20px;"/>
+
+                </p>
+            </form>
+
+            </div>
+
+
+            <button id="set" class="btn" onclick="seattle()">Message user:</button>
+
+            <table style="width:100%;" id="track">
+                <tr>
+                    <th colspan="2">Message record:  || {{current_location}}</th>
+                </tr>
+
+                {% for message in msg %}
+                    <tr>
+                        <td id="message">{{message.date_happen}} || {{message.message}}</td>
+                    </tr>
+                {% endfor %}
+
+            </table>
+
+            <button class="btn" onclick="boston()">Create New Occurrence</button>
+
+            <table style="width:100%;">
+                <tr>
+                    <th colspan="2">Occurrence date:</th>
+                </tr>
+
+                {% for event in events %}
+                    <tr>
+                        <td>{{event.date_happen}} || {{event.events}}</td>
+                    </tr>
+                {% endfor %}
+
+                </table>
+
+                <p style="margin:20px 0  0 20px; "><i>Notes from attending doctor :</i></p>
+
+                <ol style="margin:10px 0  30px 60px; ">
+                    {% for event in events %}
+                        <li>{{event.date_happen}} || {{event.notes}}</li>
+                    {% endfor %}
+                </ol>
+
+
+
+            <button class="btn" onclick="sergio()">New Incident:</button>
+
+            <table style="width:100%; margin-top:40px; margin-bottom:40px;">
+                <caption>Close contacts</caption>
+                <tr>
+                    <th>Contact Name:</th>
+                    <th>Location:</th>
+                    <th>Duration:</th>
+                    <th>Date happen:</th>
+                    <th>Relation:</th>
+                </tr>
+
+                {% for locale in location %}
+                    <tr>
+                        <td><a href="/profile/{{locale.contact_id}}">{{locale.contact_name}}</a></td>
+                        <td>{{locale.place_of_contact}}</td>
+                        <td>{{locale.cumulative_contact_hours}}</td>
+                        <td>{{locale.date_happen}}</td>
+                        <td>{{locale.relationship}}</td>
+                    </tr>
+                {% endfor %}
+
+            </table>
+
+
+            <p style="margin:40px 0  40px 20px; "><i>Location history :</i></p>
+
+            
+
+            <p style="margin:40px 0  40px 20px; "><i>Medical Charts :</i></p>
+
+
+            <p class="entity_title">&Delta; Temperature</p>
+            <div class="temp">
+                <div class="value">
+                    <p id="temp_1" class="temp_1">33<sup>o</sup><i>C</i></p>
+                    <p class="temp_label">Lowest Temp</p>
+                    <p class="temp_val_1"></p>
+
+                </div>
+                <div class="value">
+                    <p id="temp_2" class="temp_2">38<sup>o</sup><i>C</i></p>
+                    <p class="temp_label">Highest Temp</p>
+                    <p class="temp_val_2"></p>
+
+                </div>
+                <div class="value">
+                    <p id="temp_3" class="temp_3">35<sup>o</sup><i>C</i></p>
+                    <p class="temp_label">Previous Temp</p>
+                    <p class="temp_val_3"></p>
+                    
+                </div>
+                <div class="value">
+                    <p id="temp_4" class="temp_4">36<sup>o</sup><i>C</i></p>
+                    <p class="temp_label">Current Temp</p>
+                    <p class="temp_val_4"></p>
+
+                </div>
+            </div>
+
+            <p class="entity_title">&Delta; Heart rate</p>
+            <div class="hr">
+                <div class="value">
+                    <p id="hr_1" class="hr_1">75 <i>BPM</i></p>
+                    <p class="hr_label">Lowest rate /s</p>
+                    <p class="hr_val_1"></p>
+
+                </div>
+                <div class="value">
+                    <p id="hr_2" class="hr_2">118 <i>BPM</i></p>
+                    <p class="hr_label">Highest rate /s</p>
+                    <p class="hr_val_2"></p>
+
+                </div>
+                <div class="value">
+                    <p id="hr_3" class="hr_3">82 <i>BPM</i></p>
+                    <p class="hr_label">Previous rate /s</p>
+                    <p class="hr_val_3"></p>
+
+                </div>
+                <div class="value">
+                    <p id="hr_4" class="hr_4">88 <i>BPM</i></p>
+                    <p class="hr_label">Current rate /s</p>
+                    <p class="hr_val_4"></p>
+
+                </div>
+            </div>
+
+            <p class="entity_title">&Delta; Blood pressure</p>
+            <div class="bp">
+                <div class="value">
+                    <p id="bp_1" class="bp_1">105/ 69 <i>mmHg</i></p>
+                    <p class="bp_label">Lowest <i>bp</i></p>
+                    <p class="bp_val_1"></p>
+
+                </div>
+                <div class="value">
+                    <p id="bp_2" class="bp_2">118/ 80 <i>mmHg</i></p>
+                    <p class="bp_label">Highest <i>bp</i></p>
+                    <p class="bp_val_2"></p>
+
+                </div>
+                <div class="value">
+                    <p id="bp_3" class="bp_3">117/ 76 <i>mmHg</i></p>
+                    <p class="bp_label">Previous <i>bp</i></p>
+                    <p class="bp_val_3"></p>
+
+                </div>
+                <div class="value">
+                    <p id="bp_4" class="bp_4">116/ 78 <i>mmHg</i></p>
+                    <p class="bp_label">Current <i>bp</i></p>
+                    <p class="bp_val_4"></p>
+
+                </div>
+            </div>
+
+            <p class="entity_title">&Delta; Blood sugar</p>
+            <div class="bs">
+                <div class="value">
+                    <p id="bs_1" class="bs_1">5.3 <i>mmol/L</i></p>
+                    <p class="bs_label">Lowest <i>BgL</i></p>
+                    <p class="bs_val_1"></p>
+
+                </div>
+                <div class="value">
+                    <p id="bs_2" class="bs_2">8.0 <i>mmol/L</i></p>
+                    <p class="bs_label">Highest <i>BgL</i></p>
+                    <p class="bs_val_2"></p>
+
+                </div>
+                <div class="value">
+                    <p id="bs_3" class="bs_3">5.8 <i>mmol/L</i></p>
+                    <p class="bs_label">Previous <i>BgL</i></p>
+                    <p class="bs_val_3"></p>
+
+                </div>
+                <div class="value">
+                    <p id="bs_4" class="bs_4">6.7 <i>mmol/L</i></p>
+                    <p class="bs_label">Current <i>BgL</i></p>
+                    <p class="bs_val_4"></p>
+
+                </div>
+            </div>
+
+            <p class="entity_title">&Delta; Blood O<sub>2</sub> saturation</p>
+            <div class="so">
+                <div class="value">
+                    <p id="so_1" class="so_1">90% <i>SaO<sub>2</sub></i></p>
+                    <p class="so_label">Lowest <i><small>Arterial((O<sub>2</sub>)sats)</small></i></p>
+                    <p class="so_val_1"></p>
+
+                </div>
+                <div class="value">
+                    <p id="so_2" class="so_2">99% <i>SaO<sub>2</sub></i></p>
+                    <p class="so_label">Highest <i><small>Arterial((O<sub>2</sub>)sats)</small></i></p>
+                    <p class="so_val_2"></p>
+
+                </div>
+                <div class="value">
+                    <p id="so_3" class="so_3">95% <i>SaO<sub>2</sub></i></p>
+                    <p class="so_label">Previous <i><small>Arterial((O<sub>2</sub>)sats)</small></i></p>
+                    <p class="so_val_3"></p>
+
+                </div>
+                <div class="value">
+                    <p id="so_4" class="so_4">97% <i>SaO<sub>2</sub></i></p>
+                    <p class="so_label">Current <i><small>Arterial((O<sub>2</sub>)sats)</small></i></p>
+                    <p class="so_val_4"></p>
+
+                </div>
+            </div>
+
+            <p class="entity_title">Stress level</p>
+            <div class="sl">
+                <div class="value" style="width:18%;">
+                    <p id="sl_1" class="sl_1">Cucumber cool</p>
+                    <p class="sl_val"></p>
+
+                </div>
+                <div class="value" style="width:18%;">
+                    <p id="sl_2" class="sl_2" style="background-color:rgb(163, 163, 252); color:white;">SSDD</p>
+
+                </div>
+                <div class="value" style="width:18%;">
+                    <p id="sl_3" class="sl_3">Alarming</p>
+
+                </div>
+            </div>
+
+            <p class="entity_title">Fatigue</p>
+            <div class="ft">
+                <div class="value" style="width:18%;">
+                    <p id="ft_1" class="ft_1">Low</p>
+                    <p class="ft_val"></p>
+
+                </div>
+                <div class="value" style="width:18%;">
+                    <p id="ft_2" class="ft_2" style="background-color:rgb(163, 163, 252); color:white;">Alright</p>
+
+                </div>
+                <div class="value" style="width:18%;">
+                    <p id="ft_3" class="ft_3">NSF</p>
+
+                </div>
+            </div>
+
+            <div class="wrapper">
+
+                <div id="chart">
+
+                </div>
+                
+                <script>
+
+                    function rand() {
+                        return (Math.random()*10) + 82;
+                    }
+                    function bp_sys() {
+                        return (Math.random()*10) + 98;
+                    }
+                    function bp_dia() {
+                        return (Math.random()*10) + 78;
+                    }
+
+                    var time = new Date();
+
+                    var data = [{
+                        x: [time],
+                        y: [rand],
+                        mode: 'lines',
+                        line: {color: '#80CAF6', shape: 'spline'}
+                    }];
+
+                    var layout = {
+                        title: {
+                            text: 'Heart rate / second',
+                            font: {
+                                family: 'Courier New, monospace',
+                                size: 20,
+                                color: '#7f7f7f'
+                            }
+                        },
+                        xaxis: {
+                            text: 'Time',
+                            font: {
+                                family: 'Courier New, monospace',
+                                size: 18,
+                                color: '#7f7f7f'
+                            }
+                        },
+                        yaxis: {
+                            text: 'Change',
+                            font: {
+                                family: 'Courier New, monospace',
+                                size: 18,
+                                color: '#7f7f7f'
+                            }
+                        }
+                    };
+
+                    Plotly.newPlot('chart', data, layout, {displaylogo: false}, {displayModeBar: false}, {responsive: true});
+
+
+                    var cnt = 0;
+
+                    var interval = setInterval(function() {
+
+                        var time = new Date();
+
+                        var y_info = rand().toFixed(1);
+                        var heart_rate = document.getElementById('hr_4');
+
+                        heart_rate.innerHTML = y_info + '<i>BPM</i>';
+
+                        var update = {
+                            x:  [[time]],
+                            y: [[y_info]]
+                            //y: [[rand()]]
+                        };
+
+
+                        var olderTime = time.setMinutes(time.getMinutes() - 1);
+                        var futureTime = time.setMinutes(time.getMinutes() + 1);
+
+                        var minuteView = {
+                            xaxis: {
+                                type: 'date',
+                                range: [olderTime,futureTime]
+                            }
+                        };
+
+                        Plotly.relayout('chart', minuteView);
+                        Plotly.extendTraces('chart', update, [0])
+
+
+                    }, 1000);
+
+                    setInterval(function(){
+                        var blood_pressure = document.getElementById('bp_4');
+                        blood_pressure.innerHTML= (bp_sys().toFixed(0)) + '/ ' + (bp_dia().toFixed(0)) + 'mmHg';
+                    }, 5000);
+                </script>
+            </div>
+
+
+
+
+            <p style="margin:40px 0  10px 20px; "><i>Happenings :</i></p>
+
+            <table style="width:90%; margin:0 auto 40px auto;">
+                <tr>
+                    <th>Date:</th>
+                    <th>Info:</th>
+                </tr>
+
+                {% for tim in turnip %}
+                    <tr>
+                        <td>{{tim.post_time}}</td>
+                        <td><a href="/dispatch">{{tim.post}}</a></td>
+                    </tr>
+                {% endfor %}
+            </table>
+
+
+            <table style="width:100%; box-shadow:0 5px 30px rgba(0, 0, 0, .4);" id="patient">
+               <tr>
+                    <td class="bold">Insurance Policy:</td>
+                    <td>{{chart.insurance}}</td>
+                    <td class="bold">Preferences:</td>
+                    <td>{{chart.preference}}</td>
+                </tr>
+                <tr>
+                    <td class="bold">Beliefs:</td>
+                    <td>{{chart.beliefs}}</td>
+                    <td class="bold">Organ Donor:</td>
+                    <td>{{chart.organ_donor}}</td>
+                </tr>
+                <tr>
+                    <td class="bold">Current Medication:</td>
+                    <td>{{chart.current_medication}}</td>
+                    <td class="bold">Emergency Contact:</td>
+                    <td>{{chart.emergency_contact_person}}</td>
+
+                </tr>
+                <tr>
+                    <td class="bold">Previous Medical History:</td>
+                    <td>{{chart.previous_medical_history}}</td>
+                    <td class="bold">Lifestyle Impact:</td>
+                    <td>{{chart.lifestyle_choices}}</td>
+                </tr>
+                <tr>
+                    <td class="bold">Blood Group:</td>
+                    <td>{{chart.blood_group}}</td>
+                    <td class="bold">Number of Contacts:</td>
+                    <td>{{ chart.number_of_contacts}}</td>
+                </tr>
+            </table>
+
+        </div>
+
+    </div>
+</div>
+
+
+
+
+<script src="/static/js/main.js"></script>
+</body>
+</html>

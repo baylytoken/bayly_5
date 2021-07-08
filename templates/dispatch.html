@@ -1,0 +1,284 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>Bayly || Dispatch</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="/static/css/main.css" />
+    <link rel="shortcut icon" href="/static/images/lf.png" type="image/x-icon"/>
+    <meta name="theme-color" content="#34495e"/>
+    <meta name="msapplication-navbutton-color" content="#34495e"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+
+</head>
+<body style="letter-spacing:0.05em;">
+<nav>
+    <label class="logo">Bayly</label>
+    <label class="logo1">Next GEN Diagnosis of Infectious Diseases</label>
+    <ul id="logo">
+        <li id="on"><a href="/">Home</a></li>
+        <li id="on"><a href="/dashboard">Dashboard</a></li>
+        <li id="on"><a href="/logout">Logout</a></li>
+        <li><a href="javascript:void(0)" onclick="openNav()" id="menu">Menu</a></li>
+    </ul>
+</nav>
+
+<div id="nav" class="overlay">
+    
+    <a href="javascript:void(0)" class="closeBtn" onclick="closeNav()">&times</a>
+
+    <p class="badge">Practitioner Name: {{name}}</p>
+
+    <div class="content">
+        <a href="/" style="margin-bottom:5px;">Home</a>
+        <a href="/dashboard" style="margin-bottom:5px;">Dashboard</a>
+        <a href="/about" style="margin-bottom:5px;">About</a>
+        <a href="/sars" style="margin-bottom:5px;">SARS CoV-2</a>
+        <a href="/suspected" style="margin-bottom:5px;">Suspected</a>
+        <a href="/exposed" style="margin-bottom:5px;">Exposed</a>
+        <a href="/infected" style="margin-bottom:5px;">Infected</a>
+        <a href="/progress" style="margin-bottom:5px;">Progress</a>
+        <a href="/logout">Logout</a>
+    </div>
+</div>
+
+<br/>
+
+<div id="else" onclick="mast()">
+
+
+    <div id="back" style="background-image:url('/static/images/road.jpg');">
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <div id="popUp">
+            <form action="" method="POST" style="background:#edf9ff; padding:20px 20px 0 20px; box-shadow:0 10px 90px rgba(0, 0, 0, .8);">
+                {{req.csrf_token}}
+                <p style="text-align:right;" ><a href="javascript:void(0)" style=" padding:10px;" onclick="boston()">X</a></p>
+                <p>
+                    {{req.patient_name.label}}
+                    <br>
+                    <div style="padding-top:7px; padding-bottom:20px;">{{req.patient_name(size=70)}}</div>
+
+                </p>
+                <p>
+                    {{req.current_condition.label}}
+                    <br>
+                    <div style="padding-top:7px; padding-bottom:20px;">{{req.current_condition(size=70)}}</div>
+
+                </p>
+                <p>
+                    {{req.current_location.label}}
+                    <br>
+                    <div style="padding-top:7px; padding-bottom:20px;">{{req.current_location(size=70)}}</div>
+
+                </p>
+                <p style="text-align:center; padding-bottom:30px;">
+
+                    <input type="submit" value="Submit" style="padding:5px 20px;"/>
+
+                </p>
+            </form>
+        </div>
+    </div>
+
+    <div id="dispatch">
+        <table style="width:98%; margin-top:100px;" id="mainTable">
+            <caption>SOS request</caption>
+            <tr>
+                <th>Patient name:</th>
+                <th>Location:</th>
+                <th>Current Condition:</th>
+                <th style="display:none;">Control:</th>
+                <th>Request Start Time:</th>
+                <th>Preexisting Conditions:</th>
+                <th>Dispatch:</th>
+            </tr>
+
+            {% for parcel in sent %}
+                <tr id="gem">
+                    <td><a href="/profile/{{parcel.user_id}}">{{parcel.patient}}</a></td>
+                    <td>{{parcel.current_location}}</td>
+                    <td>{{parcel.current_condition}}</td>
+                    <td id="tap" class="tap" data-tap="one" style="display:none;"></td>
+                    <td id="elapse" class="elapse" data-elapse="{{(parcel.request_start_time - v).total_seconds()}}">{{parcel.request_start_time}}</td>
+                    <td>{{parcel.preexisting_conditions}}</td>
+                    <td style="padding-left:25px;">
+                        <form method="POST">
+                            {{santa.csrf_token}}
+                            <input type="hidden" value="{{parcel.user_id}}" name="patch"/>
+                            <input type="submit" value="Dispatch EMT" name="thin" id="responder" style="padding:5px 7px; background-color:white;"/>
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+
+        </table>
+
+
+
+
+
+        <table style="width:98%; margin-top:100px;" id="mainTable">
+            <caption>Dispatch history</caption>
+            <tr>
+                <th>Patient name:</th>
+                <th>Location:</th>
+                <th>Condition:</th>
+                <th>Request Start Time:</th>
+                <th style="display:none;">Control:</th>
+                <th>Response Time:</th>
+                <th>Status:</th>
+            </tr>
+
+            {% for parcel in mail %}
+                <tr id="gem">
+                    <td><a href="/profile/{{parcel.user_id}}">{{parcel.patient}}</a></td>
+                    <td>{{parcel.current_location}}</td>
+                    <td>{{parcel.current_condition}}</td>
+                    <td id="rush" class="rush">{{parcel.request_start_time}}</td>
+                    <td id="tap" class="tap" data-tap="{{(parcel.time_waited - v).total_seconds()}}" style="display:none;"></td>
+                    <td id="elapse" class="elapse" data-elapse="{{(parcel.request_start_time - v).total_seconds()}}">{{parcel.time_waited}}</td>
+                    <td>
+                        <p>Completed</p>
+                        {{end_note}}
+                    </td>
+                </tr>
+            {% endfor %}
+
+        </table>
+        <br>
+        <br><br><br><br><br>
+    </div>
+
+    <div id="content_hidden">
+
+        <div style="text-align:center; color:gray; font-size:20px;">
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    {% for message in messages %}
+                        {{message}} {{name}}
+                    {% endfor %}
+                {% endif %}
+
+            {% endwith %}
+        </div>
+
+        <table style="width:100%" id="track">
+            <caption>Recent requests</caption>
+            <tr>
+                <th>Patient Name:</th>
+                <th>Location:</th>
+                <th>Current Condition:</th>
+                <th style="display:none;">Control:</th>
+                <th>Time Since Epoch:</th>
+                <th>Preexisting Conditions:</th>
+                <th>Response:</th>
+            </tr>
+
+            {% for emr in emerge %}
+                <tr id="gem">
+                    <td><a href="/profile/{{emr.user_id}}">{{emr.patient}}</a></td>
+                    <td>{{emr.current_location}}</td>
+                    <td>{{emr.current_condition}}</td>
+                    <td id="tap" class="tap" data-tap="one" style="display:none;"></td>
+                    <td id="elapse" class="elapse" data-elapse="{{(emr.request_start_time - v).total_seconds()}}">{{emr.request_start_time}}</td>
+                    <td>{{emr.preexisting_conditions}}</td>
+                    <td id="res" class="reps" data-reps="{{(emr.response_start_time - v).total_seconds()}}" style="padding-left:25px;">
+                        <form method="POST">
+                            {{elf.csrf_token}}
+                            <input type="hidden" value="{{emr.user_id}}" name="accept"/>
+                            <input type="submit" value="Confirm Request" id="responder" style="padding:5px 7px; background-color:white;"/>
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+
+        </table>
+        <br>
+        <br><br><br><br><br>
+    </div>
+
+    <div id="banner">
+        <button id="dispatcher" onclick="dispatch()">Dispatch</button>
+        <button id="requester" onclick="boston()">Request</button>
+    </div>
+</div>
+
+
+<script src="/static/js/main.js"></script>
+
+<script type="text/javascript">
+    setInterval(function t() {
+        var len = document.getElementsByClassName("elapse");
+        var cat = document.getElementsByClassName("tap");
+        var rush = document.getElementsByClassName("rush");
+
+        for (var l = 0; l < len.length; l++) {
+            var a;
+            var z;
+            var p;
+            var delta;
+            var b;
+            var days;
+            var hours;
+            var minutes;
+            var seconds;
+            var time;
+            var x;
+            var u;
+            var j;
+
+            z = cat[l].dataset.tap;
+
+            a = len[l].dataset.elapse;
+            p = a * 1000;
+
+            b = Date.now();
+
+            if (z == "one") {
+                delta = Math.abs(b - p)/1000;
+
+                days = Math.floor(delta/86400);
+                delta -= days * 86400;
+                hours = Math.floor(delta/3600) % 24;
+                delta -= hours * 3600;
+                minutes = Math.floor(delta/60) % 60;
+                delta -= minutes * 60;
+                seconds = Math.floor(delta % 60);
+                time = [days, ' : ', hours, ' : ',  minutes, ' : ', seconds];
+
+                len[l].innerHTML = time.join('');
+            }
+            else {
+                x = z * 1000;
+                delta = Math.abs(x - p)/1000;
+
+                days = Math.floor(delta/86400);
+
+                delta -= days * 86400;
+                hours = Math.floor(delta/3600) % 24;
+                delta -= hours * 3600;
+                minutes = Math.floor(delta/60) % 60;
+                delta -= minutes * 60;
+                seconds = Math.floor(delta % 60);
+                time = [days, '<i>days</i> ', hours, '<i>h</i> : ',  minutes, '<i>m</i> : ', seconds, '<i>s</i>'];
+
+                u= new Date(p);
+                j = u.toDateString();
+
+
+
+                len[l].innerHTML = time.join('');
+            }
+
+
+       }
+    }, 1000);
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,90 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>Bayly || Exposed</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="/static/css/main.css" />
+    <link rel="shortcut icon" href="/static/images/lf.png" type="image/x-icon"/>
+    <meta name="theme-color" content="#34495e"/>
+    <meta name="msapplication-navbutton-color" content="#34495e"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+</head>
+<body style="letter-spacing:0.05em;">
+<nav>
+    <label class="logo">Bayly</label>
+    <label class="logo1">Next GEN Diagnosis of Infectious Diseases</label>
+    <ul id="logo">
+        <li id="on"><a href="/">Home</a></li>
+        <li id="on"><a href="/dashboard">Dashboard</a></li>
+        <li id="on"><a href="/logout">Logout</a></li>
+        <li><a href="javascript:void(0)" onclick="openNav()" id="menu">Menu</a></li>
+    </ul>
+</nav>
+
+<div id="nav" class="overlay">
+
+    <a href="javascript:void(0)" class="closeBtn" onclick="closeNav()">&times</a>
+
+    <p class="badge">Practitioner Name: {{name}}</p>
+
+    <div class="content">
+        <a href="/" style="margin-bottom:5px;">Home</a>
+        <a href="/about" style="margin-bottom:5px;">About</a>
+        <a href="/sars" style="margin-bottom:5px;">SARS CoV-2</a>
+        <a href="/dashboard" style="margin-bottom:5px;">Dashboard</a>
+        <a href="/suspected" style="margin-bottom:5px;">Suspected</a>
+        <a href="/infected" style="margin-bottom:5px;">Infected</a>
+        <a href="/progress" style="margin-bottom:5px;">Progress</a>
+        <a href="/dispatch" style="margin-bottom:5px;">Dispatch</a>
+        <a href="/logout">Logout</a>
+    </div>
+</div>
+
+<br/>
+
+<div id="else" onclick="mast()">
+
+    <div id="content">
+        <div style="text-align:center; color:gray; font-size:20px;">
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    {% for message in messages %}
+                        {{message}} {{name}}
+                    {% endfor %}
+                {% endif %}
+
+            {% endwith %}
+        </div>
+
+        <table style="width:100%" id="mainTable">
+            <caption>Exposed cases</caption>
+            <tr>
+                <th>Patient Name:</th>
+                <th>Location:</th>
+                <th>Number of Contacts:</th>
+                <th>Epoch Date:</th>
+                <th>Current Condition:</th>
+                <th>Preexisting Conditions:</th>
+            </tr>
+
+            {% for chart in charts %}
+            <tr>
+                <td><a href="/profile/{{chart.user_id}}">{{chart.patient}}</a></td>
+                <td>{{chart.address}}</td>
+                <td>{{chart.number_of_contacts}}</td>
+                <td>{{chart.date_posted}}</td>
+                <td>{{chart.current_condition}}</td>
+                <td>{{chart.preexisting_conditions}}</td>
+            </tr>
+            {% endfor %}
+        </table>
+
+    </div>
+</div>
+
+
+<script src="/static/js/main.js"></script>
+</body>
+</html>

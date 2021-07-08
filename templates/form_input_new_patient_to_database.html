@@ -1,0 +1,170 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>Bayly || Add Patient</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="/static/css/main.css" />
+    <link rel="shortcut icon" href="/static/images/lf.png" type="image/x-icon"/>
+    <meta name="theme-color" content="#34495e"/>
+    <meta name="msapplication-navbutton-color" content="#34495e"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+</head>
+<body>
+<nav>
+    <label class="logo">Bayly</label>
+    <label class="logo1">Next GEN Diagnosis of Infectious Diseases</label>
+    <ul id="logo">
+        <li id="on"><a href="/">Home</a></li>
+        <li id="on"><a href="/dashboard">Dashboard</a></li>
+        <li id="on"><a href="/logout">Logout</a></li>
+        <li><a href="javascript:void(0)" onclick="openNav()" id="menu">Menu</a></li>
+    </ul>
+</nav>
+
+<div id="nav" class="overlay">
+
+    <a href="javascript:void(0)" class="closeBtn" onclick="closeNav()">&times</a>
+
+    <p class="badge">Practitioner Name: {{name}}</p>
+
+    <div class="content">
+        <a href="/" style="margin-bottom:5px;">Home</a>
+        <a href="/about" style="margin-bottom:5px;">About</a>
+        <a href="/sars" style="margin-bottom:5px;">SARS CoV-2</a>
+        <a href="/dashboard" style="margin-bottom:5px;">Dashboard</a>
+        <a href="/suspected" style="margin-bottom:5px;">Suspected</a>
+        <a href="/exposed" style="margin-bottom:5px;">Exposed</a>
+        <a href="/infected" style="margin-bottom:5px;">Infected</a>
+        <a href="/progress" style="margin-bottom:5px;">Progress</a>
+        <a href="/dispatch" style="margin-bottom:5px;">Dispatch</a>
+        <a href="/logout">Logout</a>
+    </div>
+</div>
+
+
+<div style="margin-top: 110px;">
+    <div style="text-align:center; color:gray; font-size:20px; margin-bottom:10px;">
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+                    {{message}} {{name}}
+                {% endfor %}
+            {% endif %}
+
+        {% endwith %}
+    </div>
+    
+    <h2 style="text-align:center; letter-spacing:0.1em; text-decoration:underline;">New patient :</h2>
+</div>
+
+
+
+
+
+<div style="display:flex; font-size:18px; letter-spacing:0.1em; justify-content:center; align-items:center; margin-top: 40px;"  onclick="mast()">
+    <form  action="" method="post" id="new_patient">
+        {{form.csrf_token}}
+        <p style="">
+            {{form.patients.label}}
+            <br>
+            <div style=" padding-top:4px; padding-bottom:10px;">{{form.patients(size=50)}}</div>
+        </p>
+        <p>
+            {{form.address.label}}
+            <br>
+            <div style=" padding-top:4px; padding-bottom:10px;">{{form.address(size=50)}}</div>
+        </p>
+        <p>
+            {{form.physician.label}}
+            <br>
+            <div style=" padding-top:4px; padding-bottom:10px;">{{form.physician(size=50)}}</div>
+        </p>
+        <p>
+            {{form.status.label}}
+            <br>
+            <div style=" padding-top:4px; padding-bottom:10px;">{{form.status(size=50)}}</div>
+        </p>
+        <p>
+            {{form.age.label}}
+            <br>
+            <div style=" padding-top:4px; padding-bottom:10px;">{{form.age(size=50)}}</div>
+        </p>
+        <p>
+            {{form.gender.label}}
+            <br>
+            <div style=" padding-top:4px; padding-bottom:10px;">{{form.gender(size=50)}}</div>
+        </p>
+        <p>
+            {{form.preexisting_conditions.label}}
+            <br>
+            <div style=" padding-top:4px; padding-bottom:10px;">{{form.preexisting_conditions(size=50)}}</div>
+        </p>
+        <p>
+            {{form.hospital.label}}
+            <br>
+            <div style=" padding-top:4px; padding-bottom:10px;">{{form.hospital(size=50)}}</div>
+        </p>
+        <p>
+            {{form.triggers.label}}
+            <br>
+            <div style=" padding-top:4px; padding-bottom:10px;">{{form.triggers(size=50)}}</div>
+        </p>
+        <p>
+            {{form.insurance.label}}
+            <br>
+            <div style=" padding-top:4px; padding-bottom:10px;">{{form.insurance(size=50)}}</div>
+        </p>
+        <p>
+            {{form.preference.label}}
+            <br>
+            <div style=" padding-top:4px; padding-bottom:10px;">{{form.preference(size=50)}}</div>
+        </p>
+        <p>
+            {{form.beliefs.label}}
+            <br>
+            <div style=" padding-top:4px; padding-bottom:10px;">{{form.beliefs(size=50)}}</div>
+        </p>
+        <p>
+            {{form.organ_donor.label}}
+            <br>
+            <div style=" padding-top:4px; padding-bottom:10px;">{{form.organ_donor(size=50)}}</div>
+        </p>
+        <p>
+            {{form.allergies.label}}
+            <br>
+            <div style=" padding-top:4px; padding-bottom:10px;">{{form.allergies(size=50)}}</div>
+        </p>
+        <p>
+            {{form.current_medication.label}}
+            <br>
+            <div style=" padding-top:4px; padding-bottom:10px;">{{form.current_medication(size=50)}}</div>
+        </p>
+        <p>
+            {{form.previous_medical_history.label}}
+            <br>
+            <div style=" padding-top:4px; padding-bottom:10px;">{{form.previous_medical_history(size=50)}}</div>
+        </p>
+        <p>
+            {{form.emergency_contact_person.label}}
+            <br>
+            <div style=" padding-top:4px; padding-bottom:10px;">{{form.emergency_contact_person(size=50)}}</div>
+        </p>
+        <p>
+            {{form.lifestyle_choices.label}}
+            <br>
+            <div style=" padding-top:4px; padding-bottom:10px;">{{form.lifestyle_choices(size=50)}}</div>
+        </p>
+        <p>
+            <div style=" padding-top:10px; text-align:center;">{{form.submit()}}</div>
+        </p>
+        <br>
+    </form>
+
+</div>
+
+
+<script src="/static/js/main.js"></script>
+</body>
+</html>
